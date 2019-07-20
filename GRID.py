@@ -6,6 +6,7 @@ y = 1
 grid[x][y] = 'P'
 
 while True:
+    print('\n' * 50)
     print('Текущая доска:')
     for j in range(GRID_SIZE):
         s = ''
