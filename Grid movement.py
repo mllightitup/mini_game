@@ -1,10 +1,3 @@
-def ret_pos(grid, value): ## возвращает позицию игрока
-    for i in range(len(grid)):
-        for j in range(len(grid[i])):
-            if grid[i][j] == value:
-                output=[i,j]
-    return(output)
-
 GRID_SIZE = 10
 
 grid = [['#' for i in range(GRID_SIZE)] for i in range(GRID_SIZE)]
