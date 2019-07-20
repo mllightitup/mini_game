@@ -7,7 +7,7 @@ grid[x][y] = 'P'
 
 while True:
     print('\n' * 50)
-    print('Текущая доска:')
+    print('Текущая доска:\n')
     for j in range(GRID_SIZE):
         s = ''
         for k in range(GRID_SIZE):
@@ -15,8 +15,7 @@ while True:
         print(s)
 
     print('')
-    print("Куда идем?")
-    command = input()
+    command = input('Куда идем? ')
     grid[x][y] = '#'
     if command == 'верх' and x > 0:
         x -= 1
