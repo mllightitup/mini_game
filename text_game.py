@@ -12,10 +12,10 @@ color_end = '\x1b[0m'
 hero = {}
 
 roles = {
-    'human': {'role_name': 'человек', 'hp': 600, 'max_hp': 600, 'armor': 100, 'damage': 100, 'stamina': 10},
-    'mag': {'role_name': 'маг', 'hp': 400, 'max_hp': 400, 'armor': 70, 'damage': 130, 'stamina': 10},
-    'ork': {'role_name': 'орк', 'hp': 700, 'max_hp': 700, 'armor': 105, 'damage': 90, 'stamina': 10},
-    'elf': {'role_name': 'эльф', 'hp': 500, 'max_hp': 500, 'armor': 80, 'damage': 110, 'stamina': 10},
+    'human': {'role_name': 'человек', 'hp': 800, 'max_hp': 600, 'armor': 100, 'damage': 120, 'stamina': 10},
+    'mag': {'role_name': 'маг', 'hp': 600, 'max_hp': 400, 'armor': 70, 'damage': 150, 'stamina': 10},
+    'ork': {'role_name': 'орк', 'hp': 900, 'max_hp': 700, 'armor': 105, 'damage': 110, 'stamina': 10},
+    'elf': {'role_name': 'эльф', 'hp': 700, 'max_hp': 500, 'armor': 80, 'damage': 130, 'stamina': 10},
 }
 
 enemies = [
@@ -39,11 +39,9 @@ chest = [
     'увеличить броню',
 ]
 
-commands = (
-    ('Help', 'Помощь'),
-    ('Stats', 'Статистика'),
-    ('Start', 'Начать задание'),
-)
+commands = ('Start','Stats', 'Help', 'Exit')
+
+commands_desc = ('Помощь', 'Статистика', 'Начать задание', 'Выход')
 
 instructor = {
     'hp': 1000,
@@ -114,6 +112,8 @@ WELCOME = f"Здравствуй, {hero_class} {yellow}{hero['name']}{color_end}
     f"Меня зовут {yellow}Дэкой{color_end}. " \
     f"Даже не знаю как ты тут оказался, но мы тебе рады. Я расскажу тебе о наших краях. "
 
+error_text = f'Неизвестная команда. Ознакомиться с списоком возможных команд можно введя {yellow}Help{color_end}'
+
 stats = \
     f'|{"Имя":^9}|{"Броня":>7}|{"Урон":>6}|{"Здоровье":>10}|\n|{yellow}{hero["name"]:^9}{color_end}|' \
     f'{yellow}{hero["armor"]:>7}{color_end}|{yellow}{hero["damage"]:>6}{color_end}|{yellow}{hero["hp"]:>10}{color_end}|'
@@ -129,11 +129,12 @@ MENU = \
     '|' + '- ' * 25 + '|\n'\
     f'|{"Меню":^50}|\n'\
     '|' + '- ' * 25 + '|\n'
-for item in commands:
-    menu_string = f'{item[0]} - {item[1]}'
+for i in range(len(commands)):
+    menu_string = f'{commands[i]} - {commands_desc[i]}'
     MENU += \
         f'|{menu_string:^50}|\n'\
         '|' + '- ' * 25 + '|\n'
+
 
 game_exit = 'Увидимся позже! Возвращайся скорее.'
 
@@ -145,6 +146,8 @@ print(MENU)
 # Базовый цикл
 while hero['hp'] > 0 and not artifact:
     action = input('Вы в главном меню: ')
+    if action.capitalize() not in commands:
+        print(error_text)
     if action.lower() == 'выход' or action.lower() == 'exit' or action.lower() == 'quit':
         print(game_exit)
         break
@@ -165,7 +168,6 @@ while hero['hp'] > 0 and not artifact:
             print(f'|{"Имя":^20}| {"Здорорье":^15}| {"Урон":^15}| {"Броня":^15}|')
             print(f"|{enemy['enemy_name']:^20}| {enemy['hp']:^15}| {enemy['damage']:^15}| {enemy['armor']:^15}|\n")
             is_break = False
-            # Плохо оформлена таблица
 
             while enemy['hp'] > 0 and hero['hp'] > 0:
                 agree = input(f'Выберите вариант хода?\n'
@@ -208,9 +210,6 @@ while hero['hp'] > 0 and not artifact:
                 print(f'Отличный бой, {yellow}{hero["name"]}{color_end}. Ты победил!\n')
 
         artifact = (hero['hp'] > 0) and not(is_break)
-
-    else:
-        print(f'Неизвестная команда. Ознакомиться с списоком возможных команд можно введя {yellow}Help{color_end}')
 
 if hero['hp'] <= 0:
     print('Вы проиграли.')
