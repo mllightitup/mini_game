@@ -57,7 +57,7 @@ while True:
 print()
 artifact = False
 
-
+# Сундук
 def do_chest():
     print(f'Вам открылся сундук "Великих". Выберите награду.')
 
