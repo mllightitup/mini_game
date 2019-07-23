@@ -1,5 +1,5 @@
-# Програма полностью работает без {yellow}, {color_end}
-# Если вместо цвета у вас выводится набор символов, поменяйть строки 7 и 8 на
+# Програма полностью работает без {yellow}, {color_end}, .capitalize(), .strip(), .lower()
+# Если вместо цвета у вас выводится набор символов, поменяйть строки 6 и 7 на
 # yellow = '' и color_end = ''
 
 # Системное (Работает только в PyCharm)
@@ -57,7 +57,7 @@ while True:
 print()
 artifact = False
 
-# Сундук
+
 def do_chest():
     print(f'Вам открылся сундук "Великих". Выберите награду.')
 
@@ -189,7 +189,7 @@ while hero['hp'] > 0 and not artifact:
 
                 if hero['damage'] * move_rules[x]["damage_koef"] >= enemy['armor']:
                     enemy['hp'] -= hero['damage'] * move_rules[x]["damage_koef"] - enemy['armor']
-                    if enemy['hp'] < 0:
+                    if enemy['hp'] <= 0:
                         break
                 if enemy['damage'] * move_rules[x]["damage_koef"] >= hero['armor']:
                     hero['hp'] -= enemy['damage'] - hero['armor'] * move_rules[x]["armor_koef"]
