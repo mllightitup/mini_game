@@ -12,10 +12,10 @@ color_end = '\x1b[0m'
 hero = {}
 
 roles = {
-    'human': {'role_name': 'человек', 'hp': 800, 'max_hp': 600, 'armor': 100, 'damage': 120, 'stamina': 10},
-    'mag': {'role_name': 'маг', 'hp': 600, 'max_hp': 400, 'armor': 70, 'damage': 150, 'stamina': 10},
-    'ork': {'role_name': 'орк', 'hp': 900, 'max_hp': 700, 'armor': 105, 'damage': 110, 'stamina': 10},
-    'elf': {'role_name': 'эльф', 'hp': 700, 'max_hp': 500, 'armor': 80, 'damage': 130, 'stamina': 10},
+    'human': {'role_name': 'человек', 'hp': 800, 'max_hp': 800, 'armor': 100, 'damage': 120, 'stamina': 10},
+    'mag': {'role_name': 'маг', 'hp': 460, 'max_hp': 600, 'armor': 70, 'damage': 150, 'stamina': 10},
+    'ork': {'role_name': 'орк', 'hp': 900, 'max_hp': 900, 'armor': 105, 'damage': 110, 'stamina': 10},
+    'elf': {'role_name': 'эльф', 'hp': 700, 'max_hp': 700, 'armor': 80, 'damage': 130, 'stamina': 10},
 }
 
 enemies = [
@@ -189,7 +189,8 @@ while hero['hp'] > 0 and not artifact:
 
                 if hero['damage'] * move_rules[x]["damage_koef"] >= enemy['armor']:
                     enemy['hp'] -= hero['damage'] * move_rules[x]["damage_koef"] - enemy['armor']
-
+                    if enemy['hp'] < 0:
+                        break
                 if enemy['damage'] * move_rules[x]["damage_koef"] >= hero['armor']:
                     hero['hp'] -= enemy['damage'] - hero['armor'] * move_rules[x]["armor_koef"]
 
