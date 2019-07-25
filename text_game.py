@@ -37,7 +37,7 @@ def do_help():
         menu_string = f'{commands[i]} - {commands_desc[i]}'
         menu += \
             f'|{menu_string:^63}|\n' \
-            '|' + '- }' * 25 + '|\n'
+            '|' + '- ' * 25 + '|\n'
     print(menu)
 
 
