@@ -1,10 +1,14 @@
-# Програма полностью работает без {yellow}, {color_end}
+# Програма полностью работает без {bright_blue}, {color_end}
 # Если вместо цвета у вас выводится набор символов, поменяйть строки 7 и 8 на
-# yellow = '' и color_end = ''
+# bright_blue = '' и color_end = ''
 
 # Системное (Работает только в PyCharm)
 
-yellow = '\x1b[1;93m'
+yellow = '\x1b[1;92m'
+dark_blue = '\x1b[1;94m'
+pink = '\x1b[1;95m'
+bright_blue = '\x1b[1;4;96m'
+grey = '\x1b[1;97m'
 color_end = '\x1b[0m'
 
 # Функции
@@ -16,10 +20,10 @@ def stats(person):
         f'{"Броня":^7}|' \
         f'{"Урон":^6}|' \
         f'{"Здоровье":^10}|\n' \
-        f'|{yellow}{person["name"]:^{len(hero["name"]) + 4}}{color_end}|' \
-        f'{yellow}{person["armor"]:^7}{color_end}|' \
-        f'{yellow}{person["damage"]:^6}{color_end}|' \
-        f'{yellow}{person["hp"]:^10}{color_end}|'
+        f'|{bright_blue}{person["name"]:^{len(hero["name"]) + 4}}{color_end}|' \
+        f'{bright_blue}{person["armor"]:^7}{color_end}|' \
+        f'{bright_blue}{person["damage"]:^6}{color_end}|' \
+        f'{bright_blue}{person["hp"]:^10}{color_end}|'
     print(statistics)
     print()
 
@@ -32,18 +36,18 @@ def do_help():
     for i in range(len(commands)):
         menu_string = f'{commands[i]} - {commands_desc[i]}'
         menu += \
-            f'|{menu_string:^50}|\n' \
-            '|' + '- ' * 25 + '|\n'
+            f'|{menu_string:^63}|\n' \
+            '|' + '- }' * 25 + '|\n'
     print(menu)
 
 
 def start(h, es):
     print(
-        'Привет это снова я - Дэкой. '
+        'Привет это снова я - Дэкой. \n'
         'Ну что готов к своему первому заданию? Видишь этот склеп на вершине холма?\n'
-        'В него уже на заходили 23 года. '
+        'В него уже на заходили 23 года. \n'
         'Говорят там завелось много чудовищь.\n'
-        f'Это задание должно быть легким для тебя, еще и мешок золота от {yellow}Гревиаса{color_end} получишь!\n'
+        f'Это задание должно быть легким для тебя, еще и мешок золота от {bright_blue}Гревиаса{color_end} получишь!\n'
         f'{h [ "name" ]} заходит в склеп и видит несколько комнат. '
         'Из каждой доносятся устрашающие звуки.\n'
         'Вы решили осматривать каждую комнату по порядку.'
@@ -57,7 +61,7 @@ def fight_all(h, es):
     i = 1
     fight_break = False
     for e in es:
-        print(f'Вы заходите в {yellow}{i}{color_end} комнату и видите в темном углу страшное существо:\n')
+        print(f'Вы заходите в {bright_blue}{i}{color_end} комнату и видите в темном углу страшное существо:\n')
         stats(e)
         fight_break = fight(h, e)
         if fight_break:
@@ -65,12 +69,12 @@ def fight_all(h, es):
         i += 1
 
         if h['hp'] <= 0:
-            print(f'Враг оказался сильнее, {yellow}{h["name"]}{color_end}.')
+            print(f'Враг оказался сильнее, {bright_blue}{h["name"]}{color_end}.')
             break
 
         if e['hp'] <= 0:
             print(
-                f'Отличный бой, {yellow}{h["name"]}{color_end}. '
+                f'Отличный бой, {bright_blue}{h["name"]}{color_end}. '
                 f'Ты победил!\n')
         do_chest(h, chest)
 
@@ -113,8 +117,8 @@ def fight_round(h, e, x):
         hero['hp'] -= e['damage'] - hero['armor'] * move_rules[x]["armor_kf"]
 
     if e['hp'] > 0:
-        print(f'Великолепный удар: Здоровье врага - {yellow}{e["hp"]}{color_end}, '
-              f'Ваше здоровье - {yellow}{hero["hp"]}{color_end}')
+        print(f'Великолепный удар: Здоровье врага - {bright_blue}{e["hp"]}{color_end}, '
+              f'Ваше здоровье - {bright_blue}{hero["hp"]}{color_end}')
 
 
 def do_chest(h, ch):
@@ -237,17 +241,17 @@ chest = [
 ]
 
 commands = (
-    'Start',
-    'Stats',
-    'Help',
-    'Exit'
+    f'{bright_blue}Start{color_end}',
+    f'{bright_blue}Stats{color_end}',
+    f'{bright_blue}Help{color_end}',
+    f'{bright_blue}Exit{color_end}',
 )
 
 commands_desc = (
     'Начать задание',
     'Статистика',
     'Помощь',
-    'Выход'
+    'Выход',
 )
 
 instructor = {
@@ -282,25 +286,23 @@ train_damage = hero['damage']
 
 # Стандартные фразы
 WELCOME = \
-    f"Здравствуй, {hero_class} {yellow}{hero['name']}{color_end}!\n" \
-    f"Меня зовут {yellow}Дэкой{color_end}. " \
+    f"Здравствуй, {hero_class} {bright_blue}{hero['name']}{color_end}!\n" \
+    f"Меня зовут {bright_blue}Дэкой{color_end}. " \
     "Даже не знаю как ты тут оказался, но мы тебе рады. " \
     "Я расскажу тебе о наших краях. "
 
 error_text = \
     'Неизвестная команда. ' \
-    f'Ознакомиться с списоком возможных команд можно введя {yellow}Help{color_end}'
+    f'Ознакомиться с списоком возможных команд можно введя {bright_blue}Help{color_end}'
 
-LORE = '''
-Ты попали в Вальтсардию.
-Это маленькое королевство людей с богатой историей.
-В нем есть 2 крупных города Верхейм и Рейнварден.
-Добро пожаловать!
-'''
+LORE = f'Ты попали в {bright_blue}Вальтсардию{color_end}. \n' \
+       'Это маленькое королевство людей с богатой историей. \n' \
+       f'В нем есть 2 крупных города {bright_blue}Верхейм{color_end} и {bright_blue}Рейнварден{color_end}. \n' \
+       'Добро пожаловать!\n'
 
 INTRO = \
     'Я вижу, что ты боец. ' \
-    f'Предлагаю тебе устроить спарринг с моим другом {yellow}Фриском{color_end}'
+    f'Предлагаю тебе устроить спарринг с моим другом {bright_blue}Фриском{color_end}'
 
 game_exit = 'Увидимся позже! Возвращайся скорее.'
 
@@ -312,6 +314,7 @@ do_help()
 # Базовый цикл
 while hero['hp'] > 0 and not artifact:
     action = input('Вы в главном меню: \n')
+    # ТУТ БАГ
     if action.capitalize() not in commands:
         print(error_text)
     if action.lower() == 'выход' or action.lower() == 'exit' or action.lower() == 'quit':
