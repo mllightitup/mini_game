@@ -3,7 +3,7 @@ GRID_SIZE = 10
 grid = [['#' for i in range(GRID_SIZE)] for i in range(GRID_SIZE)]
 x = 1
 y = 1
-grid[x][y] = 'P'
+grid[x][y] = '☺'
 
 while True:
     print('\n' * 50)
