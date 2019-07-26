@@ -16,11 +16,11 @@ color_end = '\x1b[0m'
 
 def stats(person):
     statistics = \
-        f'|{"Имя":^{len(hero["name"]) + 4}}|' \
+        f'|{"Имя":^{len(person["name"]) + 4}}|' \
         f'{"Броня":^7}|' \
         f'{"Урон":^6}|' \
         f'{"Здоровье":^10}|\n' \
-        f'|{bright_blue}{person["name"]:^{len(hero["name"]) + 4}}{color_end}|' \
+        f'|{bright_blue}{person["name"]:^{len(person["name"]) + 4}}{color_end}|' \
         f'{bright_blue}{person["armor"]:^7}{color_end}|' \
         f'{bright_blue}{person["damage"]:^6}{color_end}|' \
         f'{bright_blue}{person["hp"]:^10}{color_end}|'
@@ -31,12 +31,12 @@ def stats(person):
 def do_help():
     menu = \
         '|' + '- ' * 25 + '|\n' \
-        f'|{"Меню":^50}|\n' \
+        f'|{yellow}{"Меню":^50}{color_end}|\n' \
         '|' + '- ' * 25 + '|\n'
     for i in range(len(commands)):
-        menu_string = f'{commands[i]} - {commands_desc[i]}'
+        menu_string = f'{bright_blue}{commands[i]}{color_end} - {yellow}{commands_desc[i]}{color_end}'
         menu += \
-            f'|{menu_string:^63}|\n' \
+            f'|{menu_string:^74}|\n' \
             '|' + '- ' * 25 + '|\n'
     print(menu)
 
@@ -241,10 +241,10 @@ chest = [
 ]
 
 commands = (
-    f'{bright_blue}Start{color_end}',
-    f'{bright_blue}Stats{color_end}',
-    f'{bright_blue}Help{color_end}',
-    f'{bright_blue}Exit{color_end}',
+    'Start',
+    'Stats',
+    'Help',
+    'Exit',
 )
 
 commands_desc = (
@@ -314,7 +314,6 @@ do_help()
 # Базовый цикл
 while hero['hp'] > 0 and not artifact:
     action = input('Вы в главном меню: \n')
-    # ТУТ БАГ
     if action.capitalize() not in commands:
         print(error_text)
     if action.lower() == 'выход' or action.lower() == 'exit' or action.lower() == 'quit':
