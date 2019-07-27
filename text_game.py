@@ -48,7 +48,7 @@ def start(h, es):
         'В него уже на заходили 23 года. \n'
         'Говорят там завелось много чудовищь.\n'
         f'Это задание должно быть легким для тебя, еще и мешок золота от {bright_blue}Гревиаса{color_end} получишь!\n'
-        f'{h [ "name" ]} заходит в склеп и видит несколько комнат. '
+        f'{bright_blue}{h["name"]}{color_end} заходит в склеп и видит несколько комнат. '
         'Из каждой доносятся устрашающие звуки.\n'
         'Вы решили осматривать каждую комнату по порядку.'
     )
@@ -61,7 +61,8 @@ def fight_all(h, es):
     i = 1
     fight_break = False
     for e in es:
-        print(f'Вы заходите в {bright_blue}{i}{color_end} комнату и видите в темном углу страшное существо:\n')
+        e['hp'] = e['default_hp']
+        print(f'Вы заходите в {bright_blue}{i}{color_end}-ю комнату и видите в темном углу страшное существо:\n')
         stats(e)
         fight_break = fight(h, e)
         if fight_break:
@@ -84,22 +85,19 @@ def fight_all(h, es):
 def fight(h, e):
     is_break = False
     while e['hp'] > 0 and h['hp'] > 0:
-        agree = input(
-            f'Выберите вариант хода?\n'
-            f' 1 - Стандарт,\n'
-            f' 2 - Атака ({move_rules["attack"]["damage_kf"]}x урон и {move_rules["attack"]["armor_kf"]}x броня),\n'
-            f' 3 - Защита ({move_rules["defence"]["damage_kf"]}x урон и {move_rules["defence"]["armor_kf"]}x броня),\n'
-            f' Другая клавиша - прервать бой \n')
-
-        if agree == '1':
+        agree = choice_view(moves)
+        if agree == 0:
             x = 'default'
-        elif agree == '2':
+        elif agree == 1:
             x = 'attack'
-        elif agree == '3':
+        elif agree == 2:
             x = 'defence'
-        else:
+        elif agree == 3:
             print('Вы прервали бой.')
             is_break = True
+            for key, val in roles.items():
+                if val['role_name'] == hero['role_name']:
+                    hero.update(roles[key])
             break
         fight_round(h, e, x)
         if e['hp'] <= 0:
@@ -126,36 +124,40 @@ def do_chest(h, ch):
         'Вам открылся сундук "Великих". '
         'Выберите награду.')
 
-    s = ''
-    for j in range(len(ch)):
-        print(f'err107{ch}')
-        s += f'{j + 1} - {ch[j]}\n'
-
-    if s == '':
+    if len(ch) == 0:
         print('Сундук пуст.\n')
 
     else:
-        while True:
-            j = input(s + f'{len(ch) + 1} - Оставить всё как есть.')
-            if j.isdigit():
-                if int(j) - 1 < len(ch) + 1:
-                    j = int(j)
-                    break
-            print(f'Введите значение от 1 до {len(ch) + 1}.')
+        j = choice_view(ch)
+        if ch[j] != 'оставить на следующий раз':
 
-        if j - 1 < len(ch):
-            if ch[j - 1] == 'восстановить здоровье полностью':
+            if ch[j] == 'восстановить здоровье полностью':
                 h['hp'] = h['max_hp']
-            elif ch[j - 1] == 'увеличить максимальное здоровье':
+            elif ch[j] == 'увеличить максимальное здоровье':
                 h['max_hp'] *= 1.15
-            elif ch[j - 1] == 'увеличить урон':
+            elif ch[j] == 'увеличить урон':
                 h['damage'] *= 1.1
-            elif ch[j - 1] == 'увеличить броню':
+            elif ch[j] == 'увеличить броню':
                 h['armor'] *= 1.2
-            ch.pop(j - 1)
+            ch.pop(j)
+
+
+def choice_view(lst):
+    print('Выберите')
+    for i, item in enumerate(lst):
+        print(f'{i} - {item}')
+
+    while True:
+        i = input('')
+        if i.isdigit():
+            i = int(i)
+            if i < len(lst):
+                return i
 
 
 # Види сущностей
+
+
 hero = {}
 
 roles = {
@@ -169,7 +171,7 @@ roles = {
     'mag': {
         'role_name': 'маг',
         'hp': 460,
-        'max_hp': 600,
+        'max_hp': 460,
         'armor': 70,
         'damage': 150,
     },
@@ -192,31 +194,31 @@ roles = {
 enemies = [
     {
         'name': 'Сrimson Bloodhunter',
-        'hp': 300,
+        'default_hp': 300,
         'armor': 20,
         'damage': 80,
     },
     {
         'name': 'Heaven Vampire',
-        'hp': 300,
+        'default_hp': 300,
         'armor': 40,
         'damage': 90,
     },
     {
         'name': 'Magical Wolf',
-        'hp': 300,
+        'default_hp': 300,
         'armor': 60,
         'damage': 100,
      },
     {
         'name': 'Ferocious Tiger',
-        'hp': 300,
+        'default_hp': 300,
         'armor': 80,
         'damage': 110,
      },
     {
         'name': 'Risen Guard',
-        'hp': 300,
+        'default_hp': 300,
         'armor': 100,
         'damage': 120},
 ]
@@ -238,6 +240,7 @@ chest = [
     'увеличить максимальное здоровье',
     'увеличить урон',
     'увеличить броню',
+    'оставить на следующий раз'
 ]
 
 commands = (
@@ -259,6 +262,12 @@ instructor = {
     'armor': 100,
 }
 
+moves = [
+    'Стандарт',
+    f'Атака ({move_rules["attack"]["damage_kf"]}x урон и {move_rules["attack"]["armor_kf"]}x броня)',
+    f'Защита ({move_rules["defence"]["damage_kf"]}x урон и {move_rules["defence"]["armor_kf"]}x броня)',
+    'Прервать бой',
+]
 # Ввод базовых переменных
 while True:
     hero['name'] = input("Введите имя вашего персонажа: \n").capitalize()
@@ -324,6 +333,7 @@ while hero['hp'] > 0 and not artifact:
     elif action.lower() == 'статистика' or action.lower() == 'stats':
         stats(hero)
     elif action.lower() == 'старт' or action.lower() == 'start':
+
         artifact = start(hero, enemies)
 
 if hero['hp'] <= 0:
