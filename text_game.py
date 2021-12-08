@@ -54,7 +54,7 @@ def start(h, es):
     )
     fight_break = fight_all(h, es)
 
-    return (hero['hp'] > 0) and not (fight_break)
+    return (hero['hp'] > 0) and not fight_break
 
 
 def fight_all(h, es):

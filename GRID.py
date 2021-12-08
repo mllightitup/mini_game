@@ -9,9 +9,7 @@ while True:
     print('\n' * 50)
     print('Текущая доска:\n')
     for j in range(GRID_SIZE):
-        s = ''
-        for k in range(GRID_SIZE):
-            s += f'{grid[j][k]} '
+        s = ''.join(f'{grid[j][k]} ' for k in range(GRID_SIZE))
         print(s)
 
     print('')
